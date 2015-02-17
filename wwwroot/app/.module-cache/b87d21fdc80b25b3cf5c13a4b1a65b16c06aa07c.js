@@ -27,12 +27,10 @@ var MovieList = React.createClass({displayName: "MovieList",
 var GenreList = React.createClass({displayName: "GenreList",
     render: function () {
         var genres = this.props.genres.map(function (genre) {
-            return React.createElement("span", null, 
-                React.createElement("button", {key: genre, className: "btn btn-info btn-xs"}, 
-                    React.createElement("span", {className: "glyphicon glyphicon-tag"}), 
+            return React.createElement("span", null, React.createElement("button", {key: genre, className: "btn btn-info btn-xs"}, 
+                React.createElement("span", {className: "glyphicon glyphicon-tag"}), 
                 genre
-                )
-            );
+            ));
         });
 
         return React.createElement("span", {className: "pull-right"}, 
@@ -67,8 +65,9 @@ var MovieItem = React.createClass({displayName: "MovieItem",
                     React.createElement("a", {className: "btn btn-primary", 
                         href: '#/movies/' + movie.id}, "Read More")
                 ), 
-                
-                React.createElement(GenreList, {genres: movie.genres})
+
+
+                    React.createElement(GenreList, {genres: movie.genres})
 
             ), 
             React.createElement("div", {className: "clearfix"})

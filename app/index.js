@@ -27,15 +27,26 @@ var MovieList = React.createClass({
 var GenreList = React.createClass({
     render: function () {
         var genres = this.props.genres.map(function (genre) {
-            return <button key={genre} className="btn btn-info btn-xs">
-                <span className="glyphicon glyphicon-tag"></span>
+            return <span>
+                <button key={genre} className="btn btn-info btn-xs">
+                    <span className="glyphicon glyphicon-tag"></span>
                 {genre}
-            </button>;
+                </button>
+            </span>;
         });
 
-        return <span>
+        return <span className="pull-right">
             {genres}
         </span>
+    }
+});
+
+var MovieImage = React.createClass({
+    render: function () {
+        return <div className="col-sm-2 hidden-xs">
+            <img src={this.props.image}
+                className="img-responsive" />
+        </div>;
     }
 });
 
@@ -44,24 +55,20 @@ var MovieItem = React.createClass({
         var movie = this.props.movie;
 
         return <div className="row well">
-            <div className="col-sm-2 hidden-xs">
-                <img src={movie.posters.profile}
-                    className="img-responsive" />
-            </div>
+            <MovieImage image={movie.posters.profile} />
+
             <div className="col-sm-10">
                 <h4 className="Title">{movie.title}</h4>
                 <p>
-                {movie.criticsConsensus}
+                    {movie.criticsConsensus}
                 </p>
 
                 <span className="pull-left">
                     <a className="btn btn-primary"
                         href={'#/movies/' + movie.id}>Read More</a>
                 </span>
-
-                <span className="pull-right">
-                    <GenreList genres={movie.genres} />
-                </span>
+                
+                <GenreList genres={movie.genres} />
 
             </div>
             <div className="clearfix"></div>
