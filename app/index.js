@@ -27,8 +27,8 @@ var MovieList = React.createClass({
 var GenreList = React.createClass({
     render: function () {
         var genres = this.props.genres.map(function (genre) {
-            return <span>
-                <button key={genre} className="btn btn-info btn-xs">
+            return <span key={genre}>
+                <button className="btn btn-info btn-xs">
                     <span className="glyphicon glyphicon-tag"></span>
                 {genre}
                 </button>
@@ -67,7 +67,7 @@ var MovieItem = React.createClass({
                     <a className="btn btn-primary"
                         href={'#/movies/' + movie.id}>Read More</a>
                 </span>
-                
+
                 <GenreList genres={movie.genres} />
 
             </div>
