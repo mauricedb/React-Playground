@@ -38324,15 +38324,33 @@ var movies = [
             "Ruben Fleischer"
         ]
     }
-]
+];
 
 
 var express = require('express');
 var router = express.Router();
 
-router.get('/', function(req, res){
-    console.log("respond with a resource");
+router.get('/', function (req, res) {
     res.json(movies);
+});
+
+router.get('/:id', function (req, res) {
+    var id = +req.params.id;
+    var movie = movies.filter(function (m) {
+        return m.id === id;
+    }).pop();
+    res.json(movie);
+});
+
+router.post('/', function (req, res) {
+    var movie = req.body;
+    movie.id = movie.id || Date.now();
+    movies.push(movie);
+
+    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    res.location(fullUrl + '/' + movie.id)
+    res.statusCode = 201;
+    res.end();
 });
 
 module.exports = router;

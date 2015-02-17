@@ -3,12 +3,14 @@
  */
 
 var express = require('express');
-var app = express();
+var bodyParser = require('body-parser');
 
+var app = express();
 //var connect = require('connect');
 var serveStatic = require('serve-static');
 var path = require('path');
-//var app = connect();
+
+app.use(bodyParser.json());
 
 var movies = require('./movies')
 app.use('/movies', movies);
