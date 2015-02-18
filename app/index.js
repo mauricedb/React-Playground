@@ -4,6 +4,23 @@ var PageHeader = React.createClass({
     }
 });
 
+var NewMovieForm = React.createClass({
+    addMovie: function () {
+        var title = this.refs.title.getDOMNode().value;
+        //alert('Adding ' + title)
+        this.props.onAddMovie({title: title});
+    },
+    render: function () {
+        return <form>
+            <div>
+                Title:
+                <input type="text"  ref="title"/>
+            </div>
+            <button onClick={this.addMovie}>Add</button>
+        </form>;
+    }
+});
+
 var MovieList = React.createClass({
     getInitialState: function () {
         return {movies: []}
@@ -14,7 +31,7 @@ var MovieList = React.createClass({
             that.setState({movies: movies});
         });
     },
-    deleteMovie:function(movie){
+    deleteMovie: function (movie) {
         var index = this.state.movies.indexOf(movie);
         var newMovies = this.state.movies;
         newMovies.splice(index, 1);
@@ -58,7 +75,7 @@ var MovieImage = React.createClass({
 });
 
 var MovieItem = React.createClass({
-    deleteMovie:function(){
+    deleteMovie: function () {
         this.props.onDeleteMovie(this.props.movie);
     },
     render: function () {
@@ -69,7 +86,7 @@ var MovieItem = React.createClass({
 
             <div className="col-sm-10">
                 <button className="btn btn-xs pull-right"
-                        onClick={this.deleteMovie}>
+                    onClick={this.deleteMovie}>
                     <i className="glyphicon glyphicon-remove"/>
                 </button>
                 <h4 className="Title">{movie.title}</h4>
@@ -91,9 +108,13 @@ var MovieItem = React.createClass({
 });
 
 var Page = React.createClass({
+    onAddMovie:function(movie){
+        alert('Adding ' + movie.title);
+    },
     render: function () {
         return <div>
             <PageHeader />
+            <NewMovieForm onAddMovie={this.onAddMovie}/>
             <MovieList />
         </div>;
     }

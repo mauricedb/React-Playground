@@ -4,6 +4,23 @@ var PageHeader = React.createClass({displayName: "PageHeader",
     }
 });
 
+var NewMovieForm = React.createClass({displayName: "NewMovieForm",
+    addMovie: function () {
+        var title = this.refs.title.getDOMNode().value;
+        //alert('Adding ' + title)
+        this.props.onAddMovie({title: title});
+    },
+    render: function () {
+        return React.createElement("form", null, 
+            React.createElement("div", null, 
+                "Title:", 
+                React.createElement("input", {type: "text", ref: "title"})
+            ), 
+            React.createElement("button", {onClick: this.addMovie}, "Add")
+        );
+    }
+});
+
 var MovieList = React.createClass({displayName: "MovieList",
     getInitialState: function () {
         return {movies: []}
@@ -14,7 +31,7 @@ var MovieList = React.createClass({displayName: "MovieList",
             that.setState({movies: movies});
         });
     },
-    deleteMovie:function(movie){
+    deleteMovie: function (movie) {
         var index = this.state.movies.indexOf(movie);
         var newMovies = this.state.movies;
         newMovies.splice(index, 1);
@@ -58,7 +75,7 @@ var MovieImage = React.createClass({displayName: "MovieImage",
 });
 
 var MovieItem = React.createClass({displayName: "MovieItem",
-    deleteMovie:function(){
+    deleteMovie: function () {
         this.props.onDeleteMovie(this.props.movie);
     },
     render: function () {
@@ -69,7 +86,7 @@ var MovieItem = React.createClass({displayName: "MovieItem",
 
             React.createElement("div", {className: "col-sm-10"}, 
                 React.createElement("button", {className: "btn btn-xs pull-right", 
-                        onClick: this.deleteMovie}, 
+                    onClick: this.deleteMovie}, 
                     React.createElement("i", {className: "glyphicon glyphicon-remove"})
                 ), 
                 React.createElement("h4", {className: "Title"}, movie.title), 
@@ -91,9 +108,13 @@ var MovieItem = React.createClass({displayName: "MovieItem",
 });
 
 var Page = React.createClass({displayName: "Page",
+    onAddMovie:function(movie){
+        alert('Adding ' + movie.title);
+    },
     render: function () {
         return React.createElement("div", null, 
             React.createElement(PageHeader, null), 
+            React.createElement(NewMovieForm, {onAddMovie: this.onAddMovie}), 
             React.createElement(MovieList, null)
         );
     }
