@@ -22,24 +22,12 @@ var NewMovieForm = React.createClass({
 });
 
 var MovieList = React.createClass({
-    getInitialState: function () {
-        return {movies: []}
-    },
-    componentDidMount: function () {
-        var that = this;
-        $.getJSON('/movies').then(function (movies) {
-            that.setState({movies: movies});
-        });
-    },
     deleteMovie: function (movie) {
-        var index = this.state.movies.indexOf(movie);
-        var newMovies = this.state.movies;
-        newMovies.splice(index, 1);
-        this.setState({movies: newMovies});
+        this.props.onDeleteMovie(movie);
     },
     render: function () {
         var that = this;
-        var items = this.state.movies.map(function (movie) {
+        var items = this.props.movies.map(function (movie) {
             return <MovieItem onDeleteMovie={that.deleteMovie} key={movie.id} movie={movie} />
         });
         return <ol>
@@ -108,14 +96,34 @@ var MovieItem = React.createClass({
 });
 
 var Page = React.createClass({
-    onAddMovie:function(movie){
-        alert('Adding ' + movie.title);
+    getInitialState: function () {
+        return {movies: []}
+    },
+    componentDidMount: function () {
+        var that = this;
+        $.getJSON('/movies').then(function (movies) {
+            that.setState({movies: movies});
+        });
+    },
+    deleteMovie: function (movie) {
+        var index = this.state.movies.indexOf(movie);
+        var newMovies = this.state.movies;
+        newMovies.splice(index, 1);
+        this.setState({movies: newMovies});
+    },
+    addMovie: function (movie) {
+        //alert('Adding ' + movie.title);
+        movie.posters = movie.posters || {};
+        movie.genres = movie.genres || [];
+        var newMovies = this.state.movies;
+        newMovies.unshift(movie);
+        this.setState({movies: newMovies});
     },
     render: function () {
         return <div>
             <PageHeader />
-            <NewMovieForm onAddMovie={this.onAddMovie}/>
-            <MovieList />
+            <NewMovieForm onAddMovie={this.addMovie}/>
+            <MovieList movies={this.state.movies} onDeleteMovie={this.deleteMovie}/>
         </div>;
     }
 });

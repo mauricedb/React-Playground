@@ -29,3 +29,5 @@ wwwroot/lib
 
 # Users Environment Variables
 .lock-wscript
+
+.module-cache

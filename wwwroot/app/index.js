@@ -22,24 +22,12 @@ var NewMovieForm = React.createClass({displayName: "NewMovieForm",
 });
 
 var MovieList = React.createClass({displayName: "MovieList",
-    getInitialState: function () {
-        return {movies: []}
-    },
-    componentDidMount: function () {
-        var that = this;
-        $.getJSON('/movies').then(function (movies) {
-            that.setState({movies: movies});
-        });
-    },
     deleteMovie: function (movie) {
-        var index = this.state.movies.indexOf(movie);
-        var newMovies = this.state.movies;
-        newMovies.splice(index, 1);
-        this.setState({movies: newMovies});
+        this.props.onDeleteMovie(movie);
     },
     render: function () {
         var that = this;
-        var items = this.state.movies.map(function (movie) {
+        var items = this.props.movies.map(function (movie) {
             return React.createElement(MovieItem, {onDeleteMovie: that.deleteMovie, key: movie.id, movie: movie})
         });
         return React.createElement("ol", null, 
@@ -108,14 +96,34 @@ var MovieItem = React.createClass({displayName: "MovieItem",
 });
 
 var Page = React.createClass({displayName: "Page",
-    onAddMovie:function(movie){
-        alert('Adding ' + movie.title);
+    getInitialState: function () {
+        return {movies: []}
+    },
+    componentDidMount: function () {
+        var that = this;
+        $.getJSON('/movies').then(function (movies) {
+            that.setState({movies: movies});
+        });
+    },
+    deleteMovie: function (movie) {
+        var index = this.state.movies.indexOf(movie);
+        var newMovies = this.state.movies;
+        newMovies.splice(index, 1);
+        this.setState({movies: newMovies});
+    },
+    addMovie: function (movie) {
+        //alert('Adding ' + movie.title);
+        movie.posters = movie.posters || {};
+        movie.genres = movie.genres || [];
+        var newMovies = this.state.movies;
+        newMovies.unshift(movie);
+        this.setState({movies: newMovies});
     },
     render: function () {
         return React.createElement("div", null, 
             React.createElement(PageHeader, null), 
-            React.createElement(NewMovieForm, {onAddMovie: this.onAddMovie}), 
-            React.createElement(MovieList, null)
+            React.createElement(NewMovieForm, {onAddMovie: this.addMovie}), 
+            React.createElement(MovieList, {movies: this.state.movies, onDeleteMovie: this.deleteMovie})
         );
     }
 });
