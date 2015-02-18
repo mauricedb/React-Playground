@@ -14,9 +14,16 @@ var MovieList = React.createClass({displayName: "MovieList",
             that.setState({movies: movies});
         });
     },
+    deleteMovie:function(movie){
+        var index = this.state.movies.indexOf(movie);
+        var newMovies = this.state.movies;
+        newMovies.splice(index, 1);
+        this.setState({movies: newMovies});
+    },
     render: function () {
+        var that = this;
         var items = this.state.movies.map(function (movie) {
-            return React.createElement(MovieItem, {key: movie.id, movie: movie})
+            return React.createElement(MovieItem, {onDeleteMovie: that.deleteMovie, key: movie.id, movie: movie})
         });
         return React.createElement("ol", null, 
             items
@@ -51,6 +58,9 @@ var MovieImage = React.createClass({displayName: "MovieImage",
 });
 
 var MovieItem = React.createClass({displayName: "MovieItem",
+    deleteMovie:function(){
+        this.props.onDeleteMovie(this.props.movie);
+    },
     render: function () {
         var movie = this.props.movie;
 
@@ -58,6 +68,10 @@ var MovieItem = React.createClass({displayName: "MovieItem",
             React.createElement(MovieImage, {image: movie.posters.profile}), 
 
             React.createElement("div", {className: "col-sm-10"}, 
+                React.createElement("button", {className: "btn btn-xs pull-right", 
+                        onClick: this.deleteMovie}, 
+                    React.createElement("i", {className: "glyphicon glyphicon-remove"})
+                ), 
                 React.createElement("h4", {className: "Title"}, movie.title), 
                 React.createElement("p", null, 
                     movie.criticsConsensus

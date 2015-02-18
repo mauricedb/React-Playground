@@ -14,9 +14,16 @@ var MovieList = React.createClass({
             that.setState({movies: movies});
         });
     },
+    deleteMovie:function(movie){
+        var index = this.state.movies.indexOf(movie);
+        var newMovies = this.state.movies;
+        newMovies.splice(index, 1);
+        this.setState({movies: newMovies});
+    },
     render: function () {
+        var that = this;
         var items = this.state.movies.map(function (movie) {
-            return <MovieItem key={movie.id} movie={movie} />
+            return <MovieItem onDeleteMovie={that.deleteMovie} key={movie.id} movie={movie} />
         });
         return <ol>
             {items}
@@ -51,6 +58,9 @@ var MovieImage = React.createClass({
 });
 
 var MovieItem = React.createClass({
+    deleteMovie:function(){
+        this.props.onDeleteMovie(this.props.movie);
+    },
     render: function () {
         var movie = this.props.movie;
 
@@ -58,6 +68,10 @@ var MovieItem = React.createClass({
             <MovieImage image={movie.posters.profile} />
 
             <div className="col-sm-10">
+                <button className="btn btn-xs pull-right"
+                        onClick={this.deleteMovie}>
+                    <i className="glyphicon glyphicon-remove"/>
+                </button>
                 <h4 className="Title">{movie.title}</h4>
                 <p>
                     {movie.criticsConsensus}

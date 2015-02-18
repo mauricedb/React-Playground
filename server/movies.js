@@ -38171,60 +38171,6 @@ var movies = [
         "abridgedDirectors": ["Raja Gosnell"]
     },
     {
-        "id": 770771542,
-        "title": "Zack and Miri Make a Porno",
-        "year": 2008,
-        "mpaaRating": "R",
-        "ratings": {
-            "criticsScore": 65,
-            "audienceScore": 67
-        },
-        "criticsConsensus": "Zack and Miri Make a Porno is a modest success for Kevin Smith, due in large part to the charm of Seth Rogen and Elizabeth Banks.",
-        "synopsis": "",
-        "genres": [
-            "Drama",
-            "Romance",
-            "Comedy"
-        ],
-        "posters": {
-            "thumbnail": "http://content7.flixster.com/movie/11/12/64/11126437_mob.jpg",
-            "profile": "http://content7.flixster.com/movie/11/12/64/11126437_pro.jpg",
-            "detailed": "http://content7.flixster.com/movie/11/12/64/11126437_det.jpg",
-            "original": "http://content7.flixster.com/movie/11/12/64/11126437_ori.jpg"
-        },
-        "abridgedCast": [
-            {
-                "id": 162653310,
-                "name": "Seth Rogen",
-                "characters": [
-                    "Zack",
-                    "Zack Brown"
-                ]
-            },
-            {
-                "id": 162653584,
-                "name": "Elizabeth Banks",
-                "characters": ["Miri Linky"]
-            },
-            {
-                "id": 770679920,
-                "name": "Craig Robinson",
-                "characters": ["Delaney"]
-            },
-            {
-                "id": 162687247,
-                "name": "Jason Mewes",
-                "characters": ["Lester"]
-            },
-            {
-                "id": 162688242,
-                "name": "Jeff Anderson",
-                "characters": ["Deacon"]
-            }
-        ],
-        "abridgedDirectors": ["Kevin Smith"]
-    },
-    {
         "id": 358188521,
         "title": "Zodiac",
         "year": 2007,
@@ -38331,7 +38277,11 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function (req, res) {
-    res.json(movies);
+    var count = 0;
+    var result = movies.filter(function () {
+        return count++ < 25;
+    });
+    res.json(result);
 });
 
 router.get('/:id', function (req, res) {
