@@ -5,10 +5,13 @@ var PageHeader = React.createClass({displayName: "PageHeader",
 });
 
 var NewMovieForm = React.createClass({displayName: "NewMovieForm",
-    addMovie: function () {
+    addMovie: function (e) {
+        e.preventDefault();
+
         var title = this.refs.title.getDOMNode().value;
-        //alert('Adding ' + title)
         this.props.onAddMovie({title: title});
+
+        this.refs.title.getDOMNode().value = '';
     },
     render: function () {
         return React.createElement("form", null, 
