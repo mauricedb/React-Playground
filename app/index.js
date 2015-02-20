@@ -15,8 +15,13 @@ var NewMovieForm = React.createClass({
         e.preventDefault();
 
         var title = this.refs.title.getDOMNode().value;
+        var criticsConsensus = this.refs.criticsConsensus.getDOMNode().value;
         var genres = this.refs.genres.getDOMNode().value.split(',');
-        this.props.onAddMovie({title: title, genres: genres});
+        this.props.onAddMovie({
+            title: title,
+            criticsConsensus: criticsConsensus,
+            genres: genres
+        });
 
         this.refs.title.getDOMNode().value = '';
         this.setState({adding: false});
@@ -34,6 +39,14 @@ var NewMovieForm = React.createClass({
                 <input type="text"
                     className="form-control"
                     ref="title"/>
+            </div>
+            <div className='form-group'>
+                <label>Critics consensus:</label>
+
+                <textarea type="text"
+                    rows="5"
+                    className="form-control"
+                    ref="criticsConsensus"/>
             </div>
             <div className='form-group'>
                 <label>Genres:</label>
