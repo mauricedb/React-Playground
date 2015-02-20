@@ -9,7 +9,7 @@ var NewMovieForm = React.createClass({
         return {adding: false};
     },
     startAdding: function () {
-        this.setState({adding: true});
+        this.setState({adding: true, isValid: false});
     },
     addMovie: function (e) {
         e.preventDefault();
@@ -26,13 +26,18 @@ var NewMovieForm = React.createClass({
         this.refs.title.getDOMNode().value = '';
         this.setState({adding: false});
     },
+    onChange: function () {
+        var title = this.refs.title.getDOMNode().value;
+
+        this.setState({isValid: !!title});
+    },
     render: function () {
         if (!this.state.adding) {
             return <button onClick={this.startAdding}
                 className='btn btn-default'>Add movie</button>
         }
 
-        return <form>
+        return <form onChange={this.onChange}>
             <div className='form-group'>
                 <label>Title:</label>
 
@@ -56,7 +61,9 @@ var NewMovieForm = React.createClass({
                     ref="genres"/>
             </div>
             <button onClick={this.addMovie}
-                className='btn btn-primary'>Add</button>
+                disabled={!this.state.isValid}
+                className='btn btn-primary pull-right'>Save</button>
+            <div className="clearfix" />
         </form>;
     }
 });

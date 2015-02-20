@@ -9,7 +9,7 @@ var NewMovieForm = React.createClass({displayName: "NewMovieForm",
         return {adding: false};
     },
     startAdding: function () {
-        this.setState({adding: true});
+        this.setState({adding: true, isValid: false});
     },
     addMovie: function (e) {
         e.preventDefault();
@@ -26,13 +26,18 @@ var NewMovieForm = React.createClass({displayName: "NewMovieForm",
         this.refs.title.getDOMNode().value = '';
         this.setState({adding: false});
     },
+    onChange: function () {
+        var title = this.refs.title.getDOMNode().value;
+
+        this.setState({isValid: !!title});
+    },
     render: function () {
         if (!this.state.adding) {
             return React.createElement("button", {onClick: this.startAdding, 
                 className: "btn btn-default"}, "Add movie")
         }
 
-        return React.createElement("form", null, 
+        return React.createElement("form", {onChange: this.onChange}, 
             React.createElement("div", {className: "form-group"}, 
                 React.createElement("label", null, "Title:"), 
 
@@ -56,7 +61,9 @@ var NewMovieForm = React.createClass({displayName: "NewMovieForm",
                     ref: "genres"})
             ), 
             React.createElement("button", {onClick: this.addMovie, 
-                className: "btn btn-primary"}, "Add")
+                disabled: !this.state.isValid, 
+                className: "btn btn-primary pull-right"}, "Save"), 
+            React.createElement("div", {className: "clearfix"})
         );
     }
 });
