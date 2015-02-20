@@ -23,7 +23,6 @@ var NewMovieForm = React.createClass({
             genres: genres
         });
 
-        this.refs.title.getDOMNode().value = '';
         this.setState({adding: false});
     },
     onChange: function () {
@@ -159,7 +158,6 @@ var Page = React.createClass({
         this.setState({movies: newMovies});
     },
     addMovie: function (movie) {
-        //alert('Adding ' + movie.title);
         movie.posters = movie.posters || {};
         movie.genres = movie.genres || [];
         var newMovies = this.state.movies;
