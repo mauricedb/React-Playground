@@ -3,5 +3,4 @@
 
 :start-server
 call gulp
-explorer http://localhost:8080
 call npm start
