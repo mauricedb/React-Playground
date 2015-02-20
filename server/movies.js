@@ -38295,7 +38295,7 @@ router.get('/:id', function (req, res) {
 router.post('/', function (req, res) {
     var movie = req.body;
     movie.id = movie.id || Date.now();
-    movies.push(movie);
+    movies.unshift(movie);
 
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     res.location(fullUrl + '/' + movie.id)

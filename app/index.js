@@ -158,11 +158,20 @@ var Page = React.createClass({
         this.setState({movies: newMovies});
     },
     addMovie: function (movie) {
+        var that = this;
         movie.posters = movie.posters || {};
-        movie.genres = movie.genres || [];
-        var newMovies = this.state.movies;
-        newMovies.unshift(movie);
-        this.setState({movies: newMovies});
+
+        $.ajax('/movies', {
+                type: 'POST',
+                data: JSON.stringify(movie),
+                contentType: 'application/json'
+            }).then(function () {
+                var newMovies = that.state.movies;
+                newMovies.unshift(movie);
+                that.setState({movies: newMovies});
+            }, function (err) {
+                console.error(err);
+            });
     },
     render: function () {
         return <div>
