@@ -5,21 +5,45 @@ var PageHeader = React.createClass({
 });
 
 var NewMovieForm = React.createClass({
+    getInitialState: function () {
+        return {adding: false};
+    },
+    startAdding: function () {
+        this.setState({adding: true});
+    },
     addMovie: function (e) {
         e.preventDefault();
 
         var title = this.refs.title.getDOMNode().value;
-        this.props.onAddMovie({title: title});
+        var genres = this.refs.genres.getDOMNode().value.split(',');
+        this.props.onAddMovie({title: title, genres: genres});
 
         this.refs.title.getDOMNode().value = '';
+        this.setState({adding: false});
     },
     render: function () {
+        if (!this.state.adding) {
+            return <button onClick={this.startAdding}
+                className='btn btn-default'>Add movie</button>
+        }
+
         return <form>
-            <div>
-                Title:
-                <input type="text"  ref="title"/>
+            <div className='form-group'>
+                <label>Title:</label>
+
+                <input type="text"
+                    className="form-control"
+                    ref="title"/>
             </div>
-            <button onClick={this.addMovie}>Add</button>
+            <div className='form-group'>
+                <label>Genres:</label>
+
+                <input type="text"
+                    className="form-control"
+                    ref="genres"/>
+            </div>
+            <button onClick={this.addMovie}
+                className='btn btn-primary'>Add</button>
         </form>;
     }
 });

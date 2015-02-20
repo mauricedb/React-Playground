@@ -5,21 +5,45 @@ var PageHeader = React.createClass({displayName: "PageHeader",
 });
 
 var NewMovieForm = React.createClass({displayName: "NewMovieForm",
+    getInitialState: function () {
+        return {adding: false};
+    },
+    startAdding: function () {
+        this.setState({adding: true});
+    },
     addMovie: function (e) {
         e.preventDefault();
 
         var title = this.refs.title.getDOMNode().value;
-        this.props.onAddMovie({title: title});
+        var genres = this.refs.genres.getDOMNode().value.split(',');
+        this.props.onAddMovie({title: title, genres: genres});
 
         this.refs.title.getDOMNode().value = '';
+        this.setState({adding: false});
     },
     render: function () {
+        if (!this.state.adding) {
+            return React.createElement("button", {onClick: this.startAdding, 
+                className: "btn btn-default"}, "Add movie")
+        }
+
         return React.createElement("form", null, 
-            React.createElement("div", null, 
-                "Title:", 
-                React.createElement("input", {type: "text", ref: "title"})
+            React.createElement("div", {className: "form-group"}, 
+                React.createElement("label", null, "Title:"), 
+
+                React.createElement("input", {type: "text", 
+                    className: "form-control", 
+                    ref: "title"})
             ), 
-            React.createElement("button", {onClick: this.addMovie}, "Add")
+            React.createElement("div", {className: "form-group"}, 
+                React.createElement("label", null, "Genres:"), 
+
+                React.createElement("input", {type: "text", 
+                    className: "form-control", 
+                    ref: "genres"})
+            ), 
+            React.createElement("button", {onClick: this.addMovie, 
+                className: "btn btn-primary"}, "Add")
         );
     }
 });
