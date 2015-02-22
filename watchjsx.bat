@@ -1,1 +1,1 @@
-jsx --watch app/ wwwroot/app/
+jsx --watch --extension jsx app/ wwwroot/app/

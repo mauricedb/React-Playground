@@ -146,6 +146,7 @@ var Page = React.createClass({displayName: "Page",
         return {movies: []}
     },
     componentDidMount: function () {
+
         var that = this;
         $.getJSON('/movies').then(function (movies) {
             that.setState({movies: movies});
