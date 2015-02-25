@@ -1,3 +1,28 @@
+var movieActions = Reflux.createActions([
+    'loadMovies',
+    'addMovie'
+]);
+
+var movieStore = Reflux.createStore({
+    init: function () {
+        this.listenToMany(movieActions);
+    },
+    getInitialState: function () {
+        this.movies = [];
+        return this.movies;
+    },
+    onLoadMovies: function () {
+        var that = this;
+        $.getJSON('/movies').then(function (movies) {
+            that.movies = movies;
+            that.trigger(that.movies);
+        });
+    },
+    onAddMovie: function (movie) {
+        console.log('onAddMovie', movie);
+    }
+});
+
 var PageHeader = React.createClass({
     render: function () {
         return <h1>Movies</h1>;
@@ -17,12 +42,16 @@ var NewMovieForm = React.createClass({
         var title = this.refs.title.getDOMNode().value;
         var criticsConsensus = this.refs.criticsConsensus.getDOMNode().value;
         var genres = this.refs.genres.getDOMNode().value.split(',');
-        this.props.onAddMovie({
+        //this.props.onAddMovie({
+        //    title: title,
+        //    criticsConsensus: criticsConsensus,
+        //    genres: genres
+        //});
+        movieActions.addMovie({
             title: title,
             criticsConsensus: criticsConsensus,
             genres: genres
         });
-
         this.setState({adding: false});
     },
     onChange: function () {
@@ -142,15 +171,9 @@ var MovieItem = React.createClass({
 });
 
 var Page = React.createClass({
-    getInitialState: function () {
-        return {movies: []}
-    },
+    mixins: [Reflux.connect(movieStore, 'movies')],
     componentDidMount: function () {
-
-        var that = this;
-        $.getJSON('/movies').then(function (movies) {
-            that.setState({movies: movies});
-        });
+        movieActions.loadMovies();
     },
     deleteMovie: function (movie) {
         var index = this.state.movies.indexOf(movie);
@@ -163,16 +186,16 @@ var Page = React.createClass({
         movie.posters = movie.posters || {};
 
         $.ajax('/movies', {
-                type: 'POST',
-                data: JSON.stringify(movie),
-                contentType: 'application/json'
-            }).then(function () {
-                var newMovies = that.state.movies;
-                newMovies.unshift(movie);
-                that.setState({movies: newMovies});
-            }, function (err) {
-                console.error(err);
-            });
+            type: 'POST',
+            data: JSON.stringify(movie),
+            contentType: 'application/json'
+        }).then(function () {
+            var newMovies = that.state.movies;
+            newMovies.unshift(movie);
+            that.setState({movies: newMovies});
+        }, function (err) {
+            console.error(err);
+        });
     },
     render: function () {
         return <div>
