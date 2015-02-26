@@ -60,16 +60,13 @@
             var title = this.refs.title.getDOMNode().value;
             var criticsConsensus = this.refs.criticsConsensus.getDOMNode().value;
             var genres = this.refs.genres.getDOMNode().value.split(',');
-            //this.props.onAddMovie({
-            //    title: title,
-            //    criticsConsensus: criticsConsensus,
-            //    genres: genres
-            //});
+
             movieActions.addMovie({
                 title: title,
                 criticsConsensus: criticsConsensus,
                 genres: genres
             });
+
             this.setState({adding: false});
         },
         onChange: function () {
@@ -199,26 +196,10 @@
             newMovies.splice(index, 1);
             this.setState({movies: newMovies});
         },
-        addMovie: function (movie) {
-            var that = this;
-            //movie.posters = movie.posters || {};
-            //
-            //$.ajax('/movies', {
-            //    type: 'POST',
-            //    data: JSON.stringify(movie),
-            //    contentType: 'application/json'
-            //}).then(function () {
-            //    var newMovies = that.state.movies;
-            //    newMovies.unshift(movie);
-            //    that.setState({movies: newMovies});
-            //}, function (err) {
-            //    console.error(err);
-            //});
-        },
         render: function () {
             return <div>
                 <PageHeader />
-                <NewMovieForm onAddMovie={this.addMovie}/>
+                <NewMovieForm/>
                 <MovieList movies={this.state.movies} onDeleteMovie={this.deleteMovie}/>
             </div>;
         }
