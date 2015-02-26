@@ -1,9 +1,24 @@
 (function (React, Reflux) {
 
-    var movieActions = Reflux.createActions([
-        'loadMovies',
-        'addMovie'
-    ]);
+    var movieActions = Reflux.createActions({
+        loadMovies: {},
+        addMovie: {asyncResult: true}
+    });
+
+    movieActions.addMovie.listen(function(movie){
+        var that = this;
+        movie.posters = movie.posters || {};
+
+        $.ajax('/movies', {
+            type: 'POST',
+            data: JSON.stringify(movie),
+            contentType: 'application/json'
+        }).then(function () {
+            that.completed(movie)
+        }, function (err) {
+            console.error(err);
+        });
+    });
 
     var movieStore = Reflux.createStore({
         init: function () {
@@ -20,10 +35,7 @@
                 that.trigger(that.movies);
             });
         },
-        onAddMovie: function (movie) {
-            movie.posters = movie.posters || {};
-
-            console.log('onAddMovie', movie);
+        onAddMovieCompleted: function (movie) {
             this.movies.unshift(movie);
             this.trigger(this.movies);
         }
@@ -189,19 +201,19 @@
         },
         addMovie: function (movie) {
             var that = this;
-            movie.posters = movie.posters || {};
-
-            $.ajax('/movies', {
-                type: 'POST',
-                data: JSON.stringify(movie),
-                contentType: 'application/json'
-            }).then(function () {
-                var newMovies = that.state.movies;
-                newMovies.unshift(movie);
-                that.setState({movies: newMovies});
-            }, function (err) {
-                console.error(err);
-            });
+            //movie.posters = movie.posters || {};
+            //
+            //$.ajax('/movies', {
+            //    type: 'POST',
+            //    data: JSON.stringify(movie),
+            //    contentType: 'application/json'
+            //}).then(function () {
+            //    var newMovies = that.state.movies;
+            //    newMovies.unshift(movie);
+            //    that.setState({movies: newMovies});
+            //}, function (err) {
+            //    console.error(err);
+            //});
         },
         render: function () {
             return React.createElement("div", null, 
