@@ -38303,4 +38303,16 @@ router.post('/', function (req, res) {
     res.end();
 });
 
+router.delete('/:id', function (req, res) {
+    var id = +req.params.id;
+    var movie = movies.filter(function (m) {
+        return m.id === id;
+    }).pop();
+    var index = movies.indexOf(movie);
+    movies.splice(index, 1);
+
+    res.statusCode = 204;
+    res.end();
+});
+
 module.exports = router;

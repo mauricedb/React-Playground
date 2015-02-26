@@ -2,7 +2,8 @@
 
     var movieActions = Reflux.createActions({
         loadMovies: {},
-        addMovie: {asyncResult: true}
+        addMovie: {asyncResult: true},
+        deleteMovie: {asyncResult: true}
     });
 
     movieActions.addMovie.listen(function(movie){
@@ -18,6 +19,19 @@
         }, function (err) {
             console.error(err);
         });
+    });
+
+    movieActions.deleteMovie.listen(function(movie){
+        var that = this;
+
+        $.ajax('/movies/' + movie.id, {
+            type: 'DELETE'
+        }).then(function () {
+            that.completed(movie)
+        }, function (err) {
+            console.error(err);
+        });
+
     });
 
     var movieStore = Reflux.createStore({
@@ -37,6 +51,11 @@
         },
         onAddMovieCompleted: function (movie) {
             this.movies.unshift(movie);
+            this.trigger(this.movies);
+        },
+        onDeleteMovieCompleted: function(movie){
+            var index = this.movies.indexOf(movie);
+            this.movies.splice(index, 1);
             this.trigger(this.movies);
         }
     });
@@ -112,13 +131,9 @@
     });
 
     var MovieList = React.createClass({displayName: "MovieList",
-        deleteMovie: function (movie) {
-            this.props.onDeleteMovie(movie);
-        },
         render: function () {
-            var that = this;
             var items = this.props.movies.map(function (movie) {
-                return React.createElement(MovieItem, {onDeleteMovie: that.deleteMovie, key: movie.id, movie: movie})
+                return React.createElement(MovieItem, {key: movie.id, movie: movie})
             });
             return React.createElement("ol", null, 
             items
@@ -154,7 +169,7 @@
 
     var MovieItem = React.createClass({displayName: "MovieItem",
         deleteMovie: function () {
-            this.props.onDeleteMovie(this.props.movie);
+            movieActions.deleteMovie(this.props.movie);
         },
         render: function () {
             var movie = this.props.movie;
@@ -190,17 +205,11 @@
         componentDidMount: function () {
             movieActions.loadMovies();
         },
-        deleteMovie: function (movie) {
-            var index = this.state.movies.indexOf(movie);
-            var newMovies = this.state.movies;
-            newMovies.splice(index, 1);
-            this.setState({movies: newMovies});
-        },
         render: function () {
             return React.createElement("div", null, 
                 React.createElement(PageHeader, null), 
                 React.createElement(NewMovieForm, null), 
-                React.createElement(MovieList, {movies: this.state.movies, onDeleteMovie: this.deleteMovie})
+                React.createElement(MovieList, {movies: this.state.movies})
             );
         }
     });
