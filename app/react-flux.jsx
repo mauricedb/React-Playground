@@ -1,64 +1,5 @@
-(function (React, Reflux) {
-
-    var movieActions = Reflux.createActions({
-        loadMovies: {},
-        addMovie: {asyncResult: true},
-        deleteMovie: {asyncResult: true}
-    });
-
-    movieActions.addMovie.listen(function(movie){
-        var that = this;
-        movie.posters = movie.posters || {};
-
-        $.ajax('/movies', {
-            type: 'POST',
-            data: JSON.stringify(movie),
-            contentType: 'application/json'
-        }).then(function () {
-            that.completed(movie)
-        }, function (err) {
-            console.error(err);
-        });
-    });
-
-    movieActions.deleteMovie.listen(function(movie){
-        var that = this;
-
-        $.ajax('/movies/' + movie.id, {
-            type: 'DELETE'
-        }).then(function () {
-            that.completed(movie)
-        }, function (err) {
-            console.error(err);
-        });
-
-    });
-
-    var movieStore = Reflux.createStore({
-        init: function () {
-            this.listenToMany(movieActions);
-        },
-        getInitialState: function () {
-            this.movies = [];
-            return this.movies;
-        },
-        onLoadMovies: function () {
-            var that = this;
-            $.getJSON('/movies').then(function (movies) {
-                that.movies = movies;
-                that.trigger(that.movies);
-            });
-        },
-        onAddMovieCompleted: function (movie) {
-            this.movies.unshift(movie);
-            this.trigger(this.movies);
-        },
-        onDeleteMovieCompleted: function(movie){
-            var index = this.movies.indexOf(movie);
-            this.movies.splice(index, 1);
-            this.trigger(this.movies);
-        }
-    });
+(function (React, movieActions, movieStore, Reflux) {
+    'use strict';
 
     var PageHeader = React.createClass({
         render: function () {
@@ -219,4 +160,4 @@
         document.getElementById('content')
     );
 
-}(window.React, window.Reflux));
+}(window.React, window.movieActions, window.movieStore, window.Reflux));
