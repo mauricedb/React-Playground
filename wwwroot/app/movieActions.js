@@ -5,6 +5,8 @@
  */
 
 (function (Reflux) {
+    var _this = this;
+
     "use strict";
 
     var movieActions = window.movieActions = Reflux.createActions({
@@ -14,29 +16,27 @@
     });
 
     movieActions.addMovie.listen(function (movie) {
-        var that = this;
         movie.posters = movie.posters || {};
 
         $.ajax("/movies", {
             type: "POST",
             data: JSON.stringify(movie),
             contentType: "application/json"
-        }).then(function () {
-            that.completed(movie);
+        }).then(function (_) {
+            return _this.completed(movie);
         }, function (err) {
-            console.error(err);
+            return console.error(err);
         });
     });
 
     movieActions.deleteMovie.listen(function (movie) {
-        var that = this;
 
         $.ajax("/movies/" + movie.id, {
             type: "DELETE"
-        }).then(function () {
-            that.completed(movie);
+        }).then(function (_) {
+            return _this.completed(movie);
         }, function (err) {
-            console.error(err);
+            return console.error(err);
         });
     });
 })(window.Reflux);
