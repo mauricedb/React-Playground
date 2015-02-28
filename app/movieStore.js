@@ -6,25 +6,24 @@
     'use strict';
 
     var movieStore = window.movieStore = Reflux.createStore({
-        init: function () {
+        init() {
             this.listenToMany(movieActions);
         },
-        getInitialState: function () {
+        getInitialState() {
             this.movies = [];
             return this.movies;
         },
-        onLoadMovies: function () {
-            var that = this;
-            $.getJSON('/movies').then(function (movies) {
-                that.movies = movies;
-                that.trigger(that.movies);
+        onLoadMovies() {
+            $.getJSON('/movies').then(movies => {
+                this.movies = movies;
+                this.trigger(this.movies);
             });
         },
-        onAddMovieCompleted: function (movie) {
+        onAddMovieCompleted(movie) {
             this.movies.unshift(movie);
             this.trigger(this.movies);
         },
-        onDeleteMovieCompleted: function(movie){
+        onDeleteMovieCompleted(movie) {
             var index = this.movies.indexOf(movie);
             this.movies.splice(index, 1);
             this.trigger(this.movies);

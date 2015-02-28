@@ -16,10 +16,11 @@
             return this.movies;
         },
         onLoadMovies: function onLoadMovies() {
-            var that = this;
+            var _this = this;
+
             $.getJSON("/movies").then(function (movies) {
-                that.movies = movies;
-                that.trigger(that.movies);
+                _this.movies = movies;
+                _this.trigger(_this.movies);
             });
         },
         onAddMovieCompleted: function onAddMovieCompleted(movie) {
