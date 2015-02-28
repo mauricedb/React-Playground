@@ -6,5 +6,5 @@
 	call bower install
 
 :start-server
-call gulp
+start gulp
 call npm start
