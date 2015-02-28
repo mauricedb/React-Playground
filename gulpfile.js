@@ -13,8 +13,10 @@ gulp.task('js', function () {
         .pipe(plugins.babel())
         .pipe(gulp.dest('wwwroot/app'));
 });
-gulp.task('mainBowerFiles', function() {
-    return gulp.src(mainBowerFiles())
+
+gulp.task('mainBowerFiles', function () {
+    return gulp.src(mainBowerFiles(),
+        {base: './bower_components'})
         .pipe(gulp.dest('wwwroot/lib/'))
 });
 
@@ -23,4 +25,4 @@ gulp.task('watch', function () {
     gulp.watch('app/*.jsx', ['jsx']);
 });
 
-gulp.task('default',['mainBowerFiles', 'jsx', 'js', 'watch']);
+gulp.task('default', ['mainBowerFiles', 'jsx', 'js', 'watch']);
