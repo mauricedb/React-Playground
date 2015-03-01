@@ -12,7 +12,7 @@
         deleteMovie: {asyncResult: true}
     });
 
-    movieActions.addMovie.listen(movie => {
+    movieActions.addMovie.listen(function(movie) {
         movie.posters = movie.posters || {};
 
         $.ajax('/movies', {
@@ -25,7 +25,7 @@
         );
     });
 
-    movieActions.deleteMovie.listen(movie => {
+    movieActions.deleteMovie.listen(function(movie)  {
 
         $.ajax('/movies/' + movie.id, {
             type: 'DELETE'
