@@ -2,19 +2,19 @@
     'use strict';
 
     var PageHeader = React.createClass({
-        render: function () {
+        render() {
             return <h1>Movies</h1>;
         }
     });
 
     var NewMovieForm = React.createClass({
-        getInitialState: function () {
+        getInitialState() {
             return {adding: false};
         },
-        startAdding: function () {
+        startAdding() {
             this.setState({adding: true, isValid: false});
         },
-        addMovie: function (e) {
+        addMovie(e) {
             e.preventDefault();
 
             var title = this.refs.title.getDOMNode().value;
@@ -29,12 +29,12 @@
 
             this.setState({adding: false});
         },
-        onChange: function () {
+        onChange() {
             var title = this.refs.title.getDOMNode().value;
 
             this.setState({isValid: !!title});
         },
-        render: function () {
+        render() {
             if (!this.state.adding) {
                 return <button onClick={this.startAdding}
                     className='btn btn-default'>Add movie</button>
@@ -72,7 +72,7 @@
     });
 
     var MovieList = React.createClass({
-        render: function () {
+        render() {
             var items = this.props.movies.map(function (movie) {
                 return <MovieItem key={movie.id} movie={movie} />
             });
@@ -83,7 +83,7 @@
     });
 
     var GenreList = React.createClass({
-        render: function () {
+        render() {
             var genres = this.props.genres.map(function (genre) {
                 return <span key={genre}>
                     <button className="btn btn-info btn-xs">
@@ -100,7 +100,7 @@
     });
 
     var MovieImage = React.createClass({
-        render: function () {
+        render() {
             return <div className="col-sm-2 hidden-xs">
                 <img src={this.props.image}
                     className="img-responsive" />
@@ -109,10 +109,10 @@
     });
 
     var MovieItem = React.createClass({
-        deleteMovie: function () {
+        deleteMovie() {
             movieActions.deleteMovie(this.props.movie);
         },
-        render: function () {
+        render() {
             var movie = this.props.movie;
 
             return <div className="row well">
@@ -143,10 +143,10 @@
 
     var Page = React.createClass({
         mixins: [Reflux.connect(movieStore, 'movies')],
-        componentDidMount: function () {
+        componentDidMount() {
             movieActions.loadMovies();
         },
-        render: function () {
+        render() {
             return <div>
                 <PageHeader />
                 <NewMovieForm/>

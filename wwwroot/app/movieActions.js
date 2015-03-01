@@ -5,8 +5,6 @@
  */
 
 (function (Reflux) {
-    var _this = this;
-
     "use strict";
 
     var movieActions = window.movieActions = Reflux.createActions({
@@ -16,6 +14,8 @@
     });
 
     movieActions.addMovie.listen(function (movie) {
+        var _this = this;
+
         movie.posters = movie.posters || {};
 
         $.ajax("/movies", {
@@ -30,6 +30,7 @@
     });
 
     movieActions.deleteMovie.listen(function (movie) {
+        var _this = this;
 
         $.ajax("/movies/" + movie.id, {
             type: "DELETE"
