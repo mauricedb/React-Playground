@@ -5,6 +5,10 @@ var mainBowerFiles = require('main-bower-files');
 gulp.task('jsx', function () {
     return gulp.src('app/*.jsx')
         .pipe(plugins.babel())
+        .pipe(plugins.rename({
+            suffix: '.jsx',
+            extname: '.js'
+        }))
         .pipe(gulp.dest('wwwroot/app'));
 });
 
