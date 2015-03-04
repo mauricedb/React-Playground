@@ -3,7 +3,7 @@ var plugins = require('gulp-load-plugins')();
 var mainBowerFiles = require('main-bower-files');
 
 gulp.task('jsx', function () {
-    return gulp.src('app/*.jsx')
+    return gulp.src('app/**/*.jsx')
         .pipe(plugins.babel())
         .pipe(plugins.rename({
             suffix: '.jsx',
@@ -13,7 +13,7 @@ gulp.task('jsx', function () {
 });
 
 gulp.task('js', function () {
-    return gulp.src('app/*.js')
+    return gulp.src('app/**/*.js')
         .pipe(plugins.babel())
         .pipe(gulp.dest('wwwroot/app'));
 });
