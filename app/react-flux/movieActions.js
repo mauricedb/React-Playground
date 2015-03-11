@@ -2,36 +2,31 @@
  * Created by Maurice on 2/26/2015.
  */
 
+export var movieActions = Reflux.createActions({
+    loadMovies: {},
+    addMovie: {asyncResult: true},
+    deleteMovie: {asyncResult: true}
+});
 
-(function (Reflux) {
-    'use strict';
+movieActions.addMovie.listen(function (movie) {
+    movie.posters = movie.posters || {};
 
-    var movieActions = window.movieActions = Reflux.createActions({
-        loadMovies: {},
-        addMovie: {asyncResult: true},
-        deleteMovie: {asyncResult: true}
-    });
-
-    movieActions.addMovie.listen(function(movie) {
-        movie.posters = movie.posters || {};
-
-        $.ajax('/movies', {
-            type: 'POST',
-            data: JSON.stringify(movie),
-            contentType: 'application/json'
-        }).then(
+    $.ajax('/movies', {
+        type: 'POST',
+        data: JSON.stringify(movie),
+        contentType: 'application/json'
+    }).then(
             _ => this.completed(movie),
             err => console.error(err)
-        );
-    });
+    );
+});
 
-    movieActions.deleteMovie.listen(function(movie)  {
+movieActions.deleteMovie.listen(function (movie) {
 
-        $.ajax('/movies/' + movie.id, {
-            type: 'DELETE'
-        }).then(
+    $.ajax('/movies/' + movie.id, {
+        type: 'DELETE'
+    }).then(
             _ => this.completed(movie),
             err => console.error(err)
-        );
-    });
-}(window.Reflux));
+    );
+});

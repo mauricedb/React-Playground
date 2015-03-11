@@ -4,7 +4,9 @@ var mainBowerFiles = require('main-bower-files');
 
 gulp.task('jsx', function () {
     return gulp.src('app/**/*.jsx')
-        .pipe(plugins.babel())
+        .pipe(plugins.babel({
+            modules :'system'
+        }))
         .pipe(plugins.rename({
             suffix: '.jsx',
             extname: '.js'
@@ -14,7 +16,9 @@ gulp.task('jsx', function () {
 
 gulp.task('js', function () {
     return gulp.src('app/**/*.js')
-        .pipe(plugins.babel())
+        .pipe(plugins.babel({
+            modules :'system'
+        }))
         .pipe(gulp.dest('wwwroot/app'));
 });
 
@@ -25,8 +29,8 @@ gulp.task('mainBowerFiles', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('app/*.js', ['js']);
-    gulp.watch('app/*.jsx', ['jsx']);
+    gulp.watch('app/**/*.js', ['js']);
+    gulp.watch('app/**/*.jsx', ['jsx']);
 });
 
 gulp.task('default', ['mainBowerFiles', 'jsx', 'js', 'watch']);
