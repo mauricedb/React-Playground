@@ -3,7 +3,7 @@
  */
 
 import {movieActions} from './movieActions';
-
+import $ from '../../lib/jquery/dist/jquery';
 
 export var movieStore = Reflux.createStore({
     init() {

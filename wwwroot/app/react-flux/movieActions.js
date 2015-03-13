@@ -1,13 +1,11 @@
-System.register([], function (_export) {
-    var movieActions;
+System.register(["../../lib/jquery/dist/jquery"], function (_export) {
+    var $, movieActions;
     return {
-        setters: [],
+        setters: [function (_libJqueryDistJquery) {
+            $ = _libJqueryDistJquery["default"];
+        }],
         execute: function () {
             "use strict";
-
-            /**
-             * Created by Maurice on 2/26/2015.
-             */
 
             movieActions = _export("movieActions", Reflux.createActions({
                 loadMovies: {},
@@ -45,3 +43,6 @@ System.register([], function (_export) {
         }
     };
 });
+/**
+ * Created by Maurice on 2/26/2015.
+ */

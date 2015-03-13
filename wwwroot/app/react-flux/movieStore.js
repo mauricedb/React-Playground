@@ -1,8 +1,10 @@
-System.register(["./movieActions"], function (_export) {
-    var movieActions, movieStore;
+System.register(["./movieActions", "../../lib/jquery/dist/jquery"], function (_export) {
+    var movieActions, $, movieStore;
     return {
         setters: [function (_movieActions) {
             movieActions = _movieActions.movieActions;
+        }, function (_libJqueryDistJquery) {
+            $ = _libJqueryDistJquery["default"];
         }],
         execute: function () {
             "use strict";

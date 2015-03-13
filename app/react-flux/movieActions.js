@@ -2,6 +2,8 @@
  * Created by Maurice on 2/26/2015.
  */
 
+import $ from '../../lib/jquery/dist/jquery';
+
 export var movieActions = Reflux.createActions({
     loadMovies: {},
     addMovie: {asyncResult: true},
