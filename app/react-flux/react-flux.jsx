@@ -1,3 +1,4 @@
+import Reflux from '../../lib/reflux/dist/reflux';
 import {movieActions} from './movieActions';
 import {movieStore} from './movieStore';
 

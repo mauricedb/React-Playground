@@ -1,10 +1,12 @@
-System.register(["./movieActions", "../../lib/jquery/dist/jquery"], function (_export) {
-    var movieActions, $, movieStore;
+System.register(["../../lib/jquery/dist/jquery", "../../lib/reflux/dist/reflux", "./movieActions"], function (_export) {
+    var $, Reflux, movieActions, movieStore;
     return {
-        setters: [function (_movieActions) {
-            movieActions = _movieActions.movieActions;
-        }, function (_libJqueryDistJquery) {
+        setters: [function (_libJqueryDistJquery) {
             $ = _libJqueryDistJquery["default"];
+        }, function (_libRefluxDistReflux) {
+            Reflux = _libRefluxDistReflux["default"];
+        }, function (_movieActions) {
+            movieActions = _movieActions.movieActions;
         }],
         execute: function () {
             "use strict";

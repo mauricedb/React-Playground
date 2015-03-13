@@ -1,7 +1,9 @@
-System.register(["./movieActions", "./movieStore"], function (_export) {
-    var movieActions, movieStore, PageHeader, NewMovieForm, MovieList, GenreList, MovieImage, MovieItem, Page;
+System.register(["../../lib/reflux/dist/reflux", "./movieActions", "./movieStore"], function (_export) {
+    var Reflux, movieActions, movieStore, PageHeader, NewMovieForm, MovieList, GenreList, MovieImage, MovieItem, Page;
     return {
-        setters: [function (_movieActions) {
+        setters: [function (_libRefluxDistReflux) {
+            Reflux = _libRefluxDistReflux["default"];
+        }, function (_movieActions) {
             movieActions = _movieActions.movieActions;
         }, function (_movieStore) {
             movieStore = _movieStore.movieStore;

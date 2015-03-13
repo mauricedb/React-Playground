@@ -2,8 +2,9 @@
  * Created by Maurice on 2/26/2015.
  */
 
-import {movieActions} from './movieActions';
 import $ from '../../lib/jquery/dist/jquery';
+import Reflux from '../../lib/reflux/dist/reflux';
+import {movieActions} from './movieActions';
 
 export var movieStore = Reflux.createStore({
     init() {

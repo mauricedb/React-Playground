@@ -3,6 +3,7 @@
  */
 
 import $ from '../../lib/jquery/dist/jquery';
+import Reflux from '../../lib/reflux/dist/reflux';
 
 export var movieActions = Reflux.createActions({
     loadMovies: {},

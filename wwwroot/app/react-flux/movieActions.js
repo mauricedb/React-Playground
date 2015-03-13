@@ -1,8 +1,10 @@
-System.register(["../../lib/jquery/dist/jquery"], function (_export) {
-    var $, movieActions;
+System.register(["../../lib/jquery/dist/jquery", "../../lib/reflux/dist/reflux"], function (_export) {
+    var $, Reflux, movieActions;
     return {
         setters: [function (_libJqueryDistJquery) {
             $ = _libJqueryDistJquery["default"];
+        }, function (_libRefluxDistReflux) {
+            Reflux = _libRefluxDistReflux["default"];
         }],
         execute: function () {
             "use strict";
