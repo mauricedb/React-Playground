@@ -1,17 +1,17 @@
 System.register(["../../lib/jquery/dist/jquery", "../../lib/reflux/dist/reflux", "./movieActions"], function (_export) {
-    var $, Reflux, movieActions, movieStore;
+    var $, Reflux, movieActions;
     return {
         setters: [function (_libJqueryDistJquery) {
             $ = _libJqueryDistJquery["default"];
         }, function (_libRefluxDistReflux) {
             Reflux = _libRefluxDistReflux["default"];
         }, function (_movieActions) {
-            movieActions = _movieActions.movieActions;
+            movieActions = _movieActions["default"];
         }],
         execute: function () {
             "use strict";
 
-            movieStore = _export("movieStore", Reflux.createStore({
+            _export("default", Reflux.createStore({
                 init: function init() {
                     this.listenToMany(movieActions);
                 },

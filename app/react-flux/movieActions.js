@@ -5,7 +5,7 @@
 import $ from '../../lib/jquery/dist/jquery';
 import Reflux from '../../lib/reflux/dist/reflux';
 
-export var movieActions = Reflux.createActions({
+var movieActions = Reflux.createActions({
     loadMovies: {},
     addMovie: {asyncResult: true},
     deleteMovie: {asyncResult: true}
@@ -33,3 +33,5 @@ movieActions.deleteMovie.listen(function (movie) {
             err => console.error(err)
     );
 });
+
+export default movieActions;

@@ -9,11 +9,11 @@ System.register(["../../lib/jquery/dist/jquery", "../../lib/reflux/dist/reflux"]
         execute: function () {
             "use strict";
 
-            movieActions = _export("movieActions", Reflux.createActions({
+            movieActions = Reflux.createActions({
                 loadMovies: {},
                 addMovie: { asyncResult: true },
                 deleteMovie: { asyncResult: true }
-            }));
+            });
 
             movieActions.addMovie.listen(function (movie) {
                 var _this = this;
@@ -42,6 +42,8 @@ System.register(["../../lib/jquery/dist/jquery", "../../lib/reflux/dist/reflux"]
                     return console.error(err);
                 });
             });
+
+            _export("default", movieActions);
         }
     };
 });

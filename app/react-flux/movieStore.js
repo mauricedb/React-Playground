@@ -4,9 +4,9 @@
 
 import $ from '../../lib/jquery/dist/jquery';
 import Reflux from '../../lib/reflux/dist/reflux';
-import {movieActions} from './movieActions';
+import movieActions from './movieActions';
 
-export var movieStore = Reflux.createStore({
+export default Reflux.createStore({
     init() {
         this.listenToMany(movieActions);
     },

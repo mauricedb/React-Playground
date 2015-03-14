@@ -6,9 +6,9 @@ System.register(["../../lib/react/react", "../../lib/reflux/dist/reflux", "./mov
         }, function (_libRefluxDistReflux) {
             Reflux = _libRefluxDistReflux["default"];
         }, function (_movieActions) {
-            movieActions = _movieActions.movieActions;
+            movieActions = _movieActions["default"];
         }, function (_movieStore) {
-            movieStore = _movieStore.movieStore;
+            movieStore = _movieStore["default"];
         }],
         execute: function () {
             "use strict";
