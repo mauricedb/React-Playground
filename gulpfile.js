@@ -2,13 +2,20 @@ var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 
 gulp.task('jsx', function () {
-    return gulp.src('app/**/*.jsx')
-        .pipe(plugins.babel())
-        .pipe(plugins.rename({
-            suffix: '.jsx',
-            extname: '.js'
+    return gulp.src('app/react-flux/react-flux.jsx')
+        //.pipe(plugins.babel())
+        .pipe(plugins.webpack({
+            module: {
+                loaders: [
+                    { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
+                    { test: /\.jsx$/, exclude: /node_modules/, loader: "babel-loader"}
+                ]
+            },
+            output: {
+                filename: 'react-flux.jsx.js'
+            }
         }))
-        .pipe(gulp.dest('wwwroot/app'));
+        .pipe(gulp.dest('wwwroot/app/react-flux'));
 });
 
 gulp.task('watch', function () {

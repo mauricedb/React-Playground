@@ -2,8 +2,8 @@
  * Created by Maurice on 2/26/2015.
  */
 
-import $ from '../../lib/jquery/dist/jquery';
-import Reflux from '../../lib/reflux/dist/reflux';
+import $ from 'jquery';
+import Reflux from 'reflux';
 
 var movieActions = Reflux.createActions({
     loadMovies: {},
