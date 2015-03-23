@@ -3,15 +3,12 @@
  */
 
 var express = require('express');
-var bodyParser = require('body-parser');
-
 var open = require('open');
-var port = process.env.PORT || 8080;
-var app = express();
 var serveStatic = require('serve-static');
 var path = require('path');
 
-app.use(bodyParser.json());
+var port = process.env.PORT || 8080;
+var app = express();
 
 var movies = require('./movies')
 app.use('/movies', movies);

@@ -38273,8 +38273,10 @@ var movies = [
 ];
 
 
+var bodyParser = require('body-parser');
 var express = require('express');
 var router = express.Router();
+router.use(bodyParser.json());
 
 router.get('/', function (req, res) {
     var count = 0;
@@ -38300,6 +38302,19 @@ router.post('/', function (req, res) {
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     res.location(fullUrl + '/' + movie.id)
     res.statusCode = 201;
+    res.end();
+});
+
+router.put('/:id', function (req, res) {
+    var newMovie = req.body;
+    var id = +req.params.id;
+    var oldMovie = movies.filter(function (m) {
+        return m.id === id;
+    }).pop();
+    var index = movies.indexOf(oldMovie);
+    movies[index] = newMovie;
+
+    res.statusCode = 204;
     res.end();
 });
 
