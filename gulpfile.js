@@ -4,7 +4,6 @@ var mainBowerFiles = require('main-bower-files');
 
 gulp.task('jsx', function () {
     return gulp.src('app/react-flux/react-flux.jsx')
-        //.pipe(plugins.babel())
         .pipe(plugins.webpack({
             module: {
                 loaders: [
@@ -26,8 +25,7 @@ gulp.task('mainBowerFiles', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('app/**/*.js', ['jsx']);
-    gulp.watch('app/**/*.jsx', ['jsx']);
+    gulp.watch('app/**/*.js*', ['jsx']);
 });
 
 gulp.task('default', ['mainBowerFiles', 'jsx', 'watch']);
