@@ -1,3 +1,5 @@
+import React from 'react';
+
 var PageHeader = React.createClass({
     render: function () {
         return <h1>Movies</h1>;

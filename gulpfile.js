@@ -2,8 +2,8 @@ var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 var mainBowerFiles = require('main-bower-files');
 
-gulp.task('jsx', function () {
-    return gulp.src('app/react-flux/react-flux.jsx')
+function pack(name){
+    return gulp.src('app/' + name + '/' + name + '.jsx')
         .pipe(plugins.webpack({
             module: {
                 loaders: [
@@ -12,10 +12,18 @@ gulp.task('jsx', function () {
                 ]
             },
             output: {
-                filename: 'react-flux.jsx.js'
+                filename: name + '.jsx.js'
             }
         }))
-        .pipe(gulp.dest('wwwroot/app/react-flux'));
+        .pipe(gulp.dest('wwwroot/app/' + name));
+}
+
+gulp.task('react-only', function () {
+    return pack('react-only');
+});
+
+gulp.task('react-flux', function () {
+    return pack('react-flux');
 });
 
 gulp.task('mainBowerFiles', function () {
@@ -25,7 +33,8 @@ gulp.task('mainBowerFiles', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('app/**/*.js*', ['jsx']);
+    gulp.watch('app/react-flux/**/*.js*', ['react-flux']);
+    gulp.watch('app/react-only/**/*.js*', ['react-only']);
 });
 
-gulp.task('default', ['mainBowerFiles', 'jsx', 'watch']);
+gulp.task('default', ['mainBowerFiles', 'react-flux', 'react-only', 'watch']);
