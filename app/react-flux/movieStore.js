@@ -16,7 +16,7 @@ export default Reflux.createStore({
     },
     onLoadMovies() {
         $.getJSON('/movies').then(movies => {
-            this.movies = movies;
+            this.movies = movies.map(movie => Movie.fromJSON(movie));
             this.trigger(this.movies);
         });
     },
@@ -30,3 +30,29 @@ export default Reflux.createStore({
         this.trigger(this.movies);
     }
 });
+
+
+class Movie {
+    constructor(id, title, year, criticsConsensus, posters) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.criticsConsensus = criticsConsensus;
+        this.posters = posters;
+        this.genres = [];
+    }
+
+    static fromJSON(json) {
+        return new Movie(json.id, json.title, json.year, json.criticsConsensus, Posters.fromJSON(json.posters));
+    }
+}
+
+class Posters {
+    constructor(profile) {
+        this.profile = profile;
+    }
+
+    static fromJSON(json) {
+        return new Posters(json.profile);
+    }
+}
